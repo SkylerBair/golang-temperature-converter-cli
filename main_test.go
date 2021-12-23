@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"path"
+	"path/filepath"
 	"reflect"
 	"strings"
 	"testing"
@@ -42,14 +42,14 @@ func TestCheckForArgumentsM1(t *testing.T) {
 			t.Fatal(err)
 		}
 		// Runs the program with not enough arguments.
-		cmd := exec.Command(path.Join(dir, binaryName), []string{}...)
+		cmd := exec.Command(filepath.Join(dir, binaryName), []string{}...)
 		output, err := cmd.CombinedOutput()
 		if err == nil || !strings.Contains(string(output), errInvalidArguments.Error()) {
 			t.Fatal("Did not validate command line arguments properly")
 		}
 
 		// Runs the program with more than enough
-		cmd2 := exec.Command(path.Join(dir, binaryName), []string{"one", "two"}...)
+		cmd2 := exec.Command(filepath.Join(dir, binaryName), []string{"one", "two"}...)
 		output2, err2 := cmd2.CombinedOutput()
 		if err2 == nil || !strings.Contains(string(output2), errInvalidArguments.Error()) {
 			t.Fatal("Did not validate command line arguments properly")
@@ -116,7 +116,7 @@ func TestReadsCurrentTemperatureM2(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		cmd := exec.Command(path.Join(dir, binaryName), []string{"C"}...)
+		cmd := exec.Command(filepath.Join(dir, binaryName), []string{"C"}...)
 
 		stdin, e := cmd.StdinPipe()
 		if e != nil {
@@ -153,7 +153,7 @@ func TestCheckConversionM2(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		cmd := exec.Command(path.Join(dir, binaryName), []string{"F"}...)
+		cmd := exec.Command(filepath.Join(dir, binaryName), []string{"F"}...)
 
 		stdin, e := cmd.StdinPipe()
 		if e != nil {
@@ -191,7 +191,7 @@ func TestPromptAgainM2(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		cmd := exec.Command(path.Join(dir, binaryName), []string{"F"}...)
+		cmd := exec.Command(filepath.Join(dir, binaryName), []string{"F"}...)
 
 		stdin, e := cmd.StdinPipe()
 		if e != nil {
@@ -234,7 +234,7 @@ func TestParsePromptToUpperM2(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		cmd := exec.Command(path.Join(dir, binaryName), []string{"F"}...)
+		cmd := exec.Command(filepath.Join(dir, binaryName), []string{"F"}...)
 
 		stdin, e := cmd.StdinPipe()
 		if e != nil {
